@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class BlackBoardSeleniumTest {
 	final ChromeDriver driver = new ChromeDriver();
 	final WebDriverWait wait = new WebDriverWait(driver, 30);
+	static List<Announcement> announcementList = new ArrayList<>();
 	
 	@Test
 	public void goGoogleTest() {
@@ -37,13 +38,29 @@ public class BlackBoardSeleniumTest {
 		WebElement navLink = driver.findElementById("global-nav-link");
 		navLink.click();
 		
-		WebElement course = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[3]/div[3]/div[2]/div/div[3]/div[2]/ul[1]/li[1]/a")));
-		course.click();
+		WebElement ISEC500_ON_course = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"CourseNavMenuSection.Course-content\"]/ul[1]/li[1]/a")));
+		ISEC500_ON_course.click();
+		System.out.println("Clicked on course nav menu section");
 		
-		WebElement assignment = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[5]/div[2]/nav/div/div[2]/div[1]/div[2]/ul/li[5]")));
-		assignment.click();
+		WebElement announcements = driver.findElements(By.xpath("//*[starts-with(@id, 'paletteItem:_')]")).get(0);
+		announcements.click(); 
 		
-		parseThroughAssignments();
+//		List<WebElement> elements = driver.findElements(By.className("clearfix"));
+//		for (WebElement e : elements) {
+//			System.out.println(e.getText());
+//		}
+//		
+//		String text= driver.findElementByClassName("item clearfix").getText();
+//		System.out.println(text);
+		List<WebElement> elements = driver.findElements(By.xpath("//*[starts-with(@id, 'announcementList:_')]"));
+		for (WebElement e : elements) {
+			String contentOfWebElement = e.toString();
+			
+			Announcement a = new Announcement("", "", contentOfWebElement);
+			announcementList.add(a);
+		}
+		
+		//parseThroughAssignments();
 		
 	}
 
